@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>Custom URL Shortener</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+</head>
+
+<body class="pace-done lout_stats30">
+	<main id="content" role="main" class="wyniki wyniki_all">
+		<div class="container">
+			<div class="row">
+				<div class="col-12 page_log_in mt-0">
+					<h2 class="h1" style="text-align: center;">Link Analytics</h2>
+				</div>
+
+				<div class="url_options url_stats_o" id="1">
+					<p class="data_link">April 2, 2022</p>
+					<p class="url_link">
+						https://www.codechef.com/ratings/all?filterBy=Country%3DIndia&itemsPerPage=15&order=asc&page=1&sortBy=global_rank
+					</p>
+					<p id="link" class="link_element">
+						<a href="/cc-ranklist" class="short_url_l" target="_blank">
+							https://rr-url.herokuapp.com/cc-ranklist</a>
+					</p>
+					<div class="stats_total btn-cutt click_stats btn_norm">
+						<div>Total clicks <strong class="allClicks">0</strong></div>
+					</div>
+				</div>
+			</div>
+			<br /><br />
+			<div class="row">
+                <div class="col-6">
+                    <h2 style="text-align: center; font-size: 25px; font-weight: 500;">Country Clicks</h2>
+                    <canvas id="barChart"></canvas>
+                </div>
+                <div class="col-6">
+                    <h2 style="text-align: center; font-size: 25px; font-weight: 500;">Device clicks</h2>
+                    <canvas id="donutChart"></canvas>
+                </div>
+            </div>
+		</div>
+	</main>
+
+</body>
+
+	<script>
+        const ctx = document.getElementById('barChart').getContext('2d');
+        const countries = {{ countries | safe}};
+        const number_of_clicks = {{ clicks | safe}};
+
+        const barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: countries,
+                datasets: [{
+                    label: 'Clicks',
+                    data: number_of_clicks,
+                    backgroundColor: [
+                        '#FF6384',
+                    ],
+                }]
+            }
+        });
+
+        const desktop_count = "{{ desktop | safe }}";
+        const mobile_count = "{{ mobile | safe }}";
+        const ctx2 = document.getElementById('donutChart').getContext('2d');
+        const donutChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Desktop',
+                    'Mobile'
+                ],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [desktop_count, mobile_count],
+                    backgroundColor: [
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            }
+        });
+    </script>
+
+</html>
